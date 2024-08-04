@@ -19,11 +19,11 @@ jobs:
         run: |
           export VERSION=$(echo $GITHUB_REF | sed -e 's/refs\/tags\///')
           rm -rf tmp && install -d tmp
-          GO_ARCH=amd64 GO_OS=linux   go build -ldflags "-w -s -X main.version=${VERSION}" -o tmp/hcc_linux_amd64 cmd/hcc/main.go
-          GO_ARCH=i386 GO_OS=linux    go build -ldflags "-w -s -X main.version=${VERSION}" -o tmp/hcc_linux_i386 cmd/hcc/main.go
-          GO_ARCH=amd64 GO_OS=darwin  go build -ldflags "-w -s -X main.version=${VERSION}" -o tmp/hcc_darwin_amd64 cmd/hcc/main.go
-          GO_ARCH=amd64 GO_OS=windows go build -ldflags "-w -s -X main.version=${VERSION}" -o tmp/hcc_windows_amd64.exe cmd/hcc/main.go
-          GO_ARCH=amd64 GO_OS=freebsd go build -ldflags "-w -s -X main.version=${VERSION}" -o tmp/hcc_freebsd_amd64 cmd/hcc/main.go
+          GOARCH=amd64 GOOS=linux   go build -ldflags "-w -s -X main.version=${VERSION}" -o tmp/hcc_linux_amd64 cmd/hcc/main.go
+          GOARCH=386 GOOS=linux     go build -ldflags "-w -s -X main.version=${VERSION}" -o tmp/hcc_linux_386 cmd/hcc/main.go
+          GOARCH=amd64 GOOS=darwin  go build -ldflags "-w -s -X main.version=${VERSION}" -o tmp/hcc_darwin_amd64 cmd/hcc/main.go
+          GOARCH=amd64 GOOS=windows go build -ldflags "-w -s -X main.version=${VERSION}" -o tmp/hcc_windows_amd64.exe cmd/hcc/main.go
+          GOARCH=amd64 GOOS=freebsd go build -ldflags "-w -s -X main.version=${VERSION}" -o tmp/hcc_freebsd_amd64 cmd/hcc/main.go
       - name: release
         run: |
           DRAFT=""
