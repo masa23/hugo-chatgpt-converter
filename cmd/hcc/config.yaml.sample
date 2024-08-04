@@ -1,0 +1,13 @@
+---
+OpenAI:
+  APIToken: "sk-xxxxxx"
+  Model: "gpt-4o-mini"
+  MaxTokens: 100
+Prompt: |
+  # Command
+  * Convert the Markdown of a hugo article according to instructions
+  * Do not convert within comment blocks
+  * Output should be in Markdown only
+
+  # Instructions
+  * 記事を英語に翻訳する
