@@ -13,16 +13,21 @@ import (
 	"github.com/sashabaranov/go-openai"
 )
 
-var conf *config.Config
+var (
+	version = ""
+	conf    *config.Config
+)
 
 func main() {
 	var err error
 	var confPath string
 	var inputPath string
 	var outputPath string
+	var showVersion bool
 	flag.StringVar(&confPath, "config", "config.yaml", "path to config file")
 	flag.StringVar(&inputPath, "input", "", "path to input file default is stdin")
 	flag.StringVar(&outputPath, "output", "", "path to output file default is stdout")
+	flag.BoolVar(&showVersion, "version", false, "show version")
 	flag.Parse()
 
 	conf, err = config.Load(confPath)
