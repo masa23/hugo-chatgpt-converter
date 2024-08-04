@@ -30,6 +30,11 @@ func main() {
 	flag.BoolVar(&showVersion, "version", false, "show version")
 	flag.Parse()
 
+	if showVersion {
+		fmt.Printf("hcc version %s\n", version)
+		return
+	}
+
 	conf, err = config.Load(confPath)
 	if err != nil {
 		log.Fatal(err)
