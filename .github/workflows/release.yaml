@@ -1,0 +1,35 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+      - 'draft/v*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: latest 
+        id: go
+      - name: build
+        run: |
+          rm -rf tmp && install -d tmp
+          GO_ARCH=amd64 GO_OS=linux go build -o tmp/hcc_linux_amd64 cmd/hcc/main.go
+          GO_ARCH=i386 GO_OS=linux go build -o tmp/hcc_linux_i386 cmd/hcc/main.go
+          GO_ARCH=amd64 GO_OS=darwin go build -o tmp/hcc/hcc_darwin_amd64 cmd/hcc/main.go
+          GO_ARCH=amd64 GO_OS=windows go build -o tmp/hcc_windows_amd64.exe cmd/hcc/main.go
+          GO_ARCH=amd64 GO_OS=freebsd go build -o tmp/hcc_freebsd_amd64 cmd/hcc/main.go
+      - name: release
+        run: |
+          DRAFT=""
+          if echo $GITHUB_REF | grep -q 'refs/tags/draft/v'; then
+            DRAFT="--draft "
+          fi
+          export VERSION=$(echo $GITHUB_REF | sed -e 's/refs\/tags\///')
+          echo ${{ secrets.GITHUB_TOKEN }} | gh auth login --hostname github.com --with-token
+          gh release create ${VERSION} ${DRAFT}--generate-notes tmp/* || \
+          rm -rf tmp
