@@ -30,6 +30,6 @@ jobs:
             DRAFT="--draft "
           fi
           export VERSION=$(echo $GITHUB_REF | sed -e 's/refs\/tags\///')
-          echo ${{ secrets.GITHUB_TOKEN }} | gh auth login --with-token
-          gh release create ${VERSION} ${DRAFT}--generate-notes tmp/* || \
+          echo "${{ secrets.GITHUB_TOKEN }}" | gh auth login --with-token
+          gh release create ${VERSION} ${DRAFT}--generate-notes tmp/*
           rm -rf tmp
